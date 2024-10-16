@@ -1,4 +1,6 @@
-<form action="." method="post" class="border rounded shadow p-4">
+
+<form action="." method="post" class="content border rounded shadow p-4">
+<h1 style="text-align: center">Login</h1>
     <div class="form-group mb-3">
         <label for="usernamefield" class="form-label">Username</label>
         <input type="text" class="form-control" name="username" placeholder="Username" id="usernamefield">
