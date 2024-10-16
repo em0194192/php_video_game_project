@@ -22,6 +22,7 @@
             top: 50%; /* Center the div vertically */
             transform: translateY(-50%); /* Adjust to center */
         }
+        img {height:150px;width:150px;}
     </style>
 </head>
 <body>
@@ -44,9 +45,9 @@
         <div class='card'>
           <img src='$imagesource' class='card-img-top' alt='$title'>
           <div class='card-body'>
-            <h5 class='card-title'>Title:$title</h5>
-            <p class='card-text'>Genre:$genre</p>
-            <p class='card-text'>Platform:$platform</p>
+            <h5 class='card-title'>Title: $title</h5>
+            <p class='card-text'>Genre: $genre</p>
+            <p class='card-text'>Platform: $platform</p>
           </div>
         </div>
         ";
