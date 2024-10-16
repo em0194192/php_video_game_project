@@ -50,7 +50,7 @@ function checkLogin($username, $password)
 function getGames()
 {
     //load the data from games.csv
-    $filename = "model/games.csv"; //designate the location as a string
+    $filename = "../model/games.csv"; //designate the location as a string
     $file = fopen($filename, "rb"); //open the stream for reading
     if (!$file)
     {

@@ -15,8 +15,8 @@
         .content {
             background-color: white; /* Set a background color for the div */
             padding: 20px; /* Add some padding */
-            border-radius: 8px; /* Optional: round the corners */
-            max-width: 600px; /* Optional: set a max width */
+            border-radius: 8px; /* round the corners */
+            max-width: 600px; /* set a max width */
             margin: auto; /* Center the div horizontally */
             position: relative; /* For positioning */
             top: 50%; /* Center the div vertically */
@@ -42,11 +42,13 @@
                     //Validate - Check for empty input fields
                     if(!$username)
                     {
-                        //username errormessage?
+                        //username errormessage
+                        $error1 ='<div class="alert alert-danger" role="alert">Username cannot be empty.</div>';
                     }
                     if(!$password)
                     {
-                        //password errormessage?
+                        //password errormessage
+                        $error2 ='<div class="alert alert-danger" role="alert">Password cannot be empty.</div>';
                     }
                     
                     //compare the username and password to csv
@@ -54,9 +56,12 @@
 
                     //conditionally show the videogames via include
                     if($isLoggedIn){
-                        include "view/show_video_games.php";
+                        header("Location: view/show_video_games.php");
+
                     } else {
                         include "view/show_login_form.php";
+                        $error3 = "Username or Password Incorrect.";
+
                         //AND ADD ERROR MESSAGES-----------------------!!!-------------!!!!------------------!!!-----
                     }
                 }     
