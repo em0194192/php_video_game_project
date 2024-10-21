@@ -42,12 +42,12 @@
                     //Validate - Check for empty input fields
                     if(!$username)
                     {
-                        //username errormessage
+                        //username error message
                         $error1 ='<div class="alert alert-danger" role="alert">Username cannot be empty.</div>';
                     }
                     if(!$password)
                     {
-                        //password errormessage
+                        //password error message
                         $error2 ='<div class="alert alert-danger" role="alert">Password cannot be empty.</div>';
                     }
                     
@@ -61,8 +61,6 @@
                     } else {
                         include "view/show_login_form.php";
                         $error3 = "Username or Password Incorrect.";
-
-                        //AND ADD ERROR MESSAGES-----------------------!!!-------------!!!!------------------!!!-----
                     }
                 }     
                 else 
