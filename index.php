@@ -28,6 +28,7 @@
     <?php
         //include "view/navbar.php";
         include "model/functions.php";
+        include "view/show_upload_form.php";
     ?>
     
     <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
