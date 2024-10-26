@@ -44,11 +44,13 @@
                         $gamePlatform = filter_input(INPUT_POST, 'gamePlatform', FILTER_SANITIZE_STRING);
                         $image = $_FILES['image'];
 
+                        echo($gameTitle);
                         // Call the function to add the game - message based on success or failure of add
                         if (addGameDB($gameTitle, $gameGenre, $gamePlatform, $image)) {
-                            header("Location: view/show_video_games.php");
+                            //header("Location: view/show_video_games.php");
+                            exit;
                         } else {
-                            //Maybe handle with a pop-up or div error message here?
+                            //header("Location: view/show_error.php");
                         }
                     }
                     
@@ -74,7 +76,7 @@
                     //conditionally show the videogames via include
                     if($isLoggedIn){
                         header("Location: view/show_video_games.php");
-
+                        exit;
                     } else {
                         include "view/show_login_form.php";
                         $error3 = "Username or Password Incorrect.";
