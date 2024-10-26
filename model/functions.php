@@ -1,5 +1,21 @@
 <?php
 
+    //create some variables to hold
+    $dsn = "mysql:host=localhost;dbname=videogameapp";
+    $username = "root";
+    $password = "";
+
+    //Connect to the database (try catch gives error or confirmation)
+    //Note that PDO (php data object) is a class (with methods/properties)
+    try {
+        $db = new PDO($dsn, $username, $password);
+        //echo("Connected to database");
+    } catch (PDOException $e) {
+        $error_message = $e->getMessage();
+        echo("Error connecting to database: $error_message");
+        exit();
+    }
+
 function checkLogin($username, $password)
 {
     if (!$username || !$password)
@@ -77,4 +93,56 @@ function getGames()
 
     //return the array
     return $games;
+}
+
+function getGamesDB()
+{
+    //declare global to have access to variable
+    global $db;
+    //string variable for the query
+    $qry = "Select * from games";
+    $pdoStatement = $db->query($qry);
+    //use a fetchall method from pdostatement to fetch all games
+    $games = $pdoStatement->fetchAll();
+    
+    //print_r($games);
+    
+    return $games;
+
+}
+
+function addGameDB($title, $genre, $platform, $image)
+{
+    //check for empty values, return false if any
+    if (!$title || !$genre || !$platform || !$image)
+    {
+        return false;
+    }
+
+    //check the file upload for errors, return false if any
+    if ($image['error'] === 0)
+    {
+        return false;
+    }
+
+    //Uploaded the File, move it
+    //Set the directories for move
+    $temp = $image['tmp_name'];
+    $path = '../uploads' . $image['image']['name'];
+    
+    //move file, save outcome bool to variable
+    $moved = move_uploaded_file($temp, $path);
+
+    if($moved)
+    {
+        global $db;
+        $query = "INSERT INTO `games` (`gameID`, `gameTitle`, `gameGenre`, `gamePlatform`, `gameImgLink`) VALUES (NULL, '$title', '$genre', '$platform', '$image'); ";
+        $db->query($query);
+        return true;
+    } else {
+        return false;
+    }
+    
+
+
 }

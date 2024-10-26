@@ -28,7 +28,7 @@
     <?php
         //include "view/navbar.php";
         include "model/functions.php";
-        include "view/show_upload_form.php";
+        //include "view/show_upload_form.php";
     ?>
     
     <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
@@ -36,7 +36,23 @@
 
                 if ($_SERVER['REQUEST_METHOD'] == "POST") //check for post - validate form if POST
                 {                  
-                    //Retrieve and then filter the inputs
+                    if(isset($_POST['action']) && $_POST['action'] === 'upload') //check for form submission
+                    {
+                        //retrieve and filter upload form inputs
+                        $gameTitle = filter_input(INPUT_POST, 'gameTitle', FILTER_SANITIZE_STRING);
+                        $gameGenre = filter_input(INPUT_POST, 'gameGenre', FILTER_SANITIZE_STRING);
+                        $gamePlatform = filter_input(INPUT_POST, 'gamePlatform', FILTER_SANITIZE_STRING);
+                        $image = $_FILES['image'];
+
+                        // Call the function to add the game - message based on success or failure of add
+                        if (addGameDB($gameTitle, $gameGenre, $gamePlatform, $image)) {
+                            header("Location: view/show_video_games.php");
+                        } else {
+                            //Maybe handle with a pop-up or div error message here?
+                        }
+                    }
+                    
+                    //Retrieve and then filter the login inputs
                     $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
                     $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
 
