@@ -26,7 +26,7 @@
 </head>
 <body>
     <?php
-        //start the session for access to session variables
+        //start the session for access to session variables(loggedIn)
         session_start(); 
                 
         //Ensure Functions are accessible

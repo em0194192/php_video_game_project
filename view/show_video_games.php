@@ -30,27 +30,35 @@
 </head>
 <body>
   <?php
+    //enable access to functions
     include "../model/functions.php";
   ?>
   <div class="container mt-4">
     <div class="content border rounded shadow p-4">
       <div class="card-group">
         <?php
+          //start session to have access to loggedIn variable
           session_start();
+          //check if logged in or not, redirect if no, proceed if so
           if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
               header("Location: view/login_form.php");
               exit;
           }
           
+          //store array from getGames in variable
           $games = getGamesDB();
 
+          //LOAD games to page
+          //iterate through the array 
           foreach($games as $game)
           {
+            //filter and save in variables
             $title = htmlspecialchars($game['gameTitle']);
             $genre = htmlspecialchars($game['gameGenre']);
             $platform = htmlspecialchars($game['gamePlatform']);
             $imagesource = htmlspecialchars($game['gameImgLink']);
-      
+            
+            //load games to page with echo (bootstrap cards) 
             echo "
             <div class='card'>
               <img src='../view/images/$imagesource' class='card-img-top' alt='$title'>
@@ -65,15 +73,19 @@
         ?>
       </div>
           <?php
+            //echo out an upload button
             echo '<div class="d-flex justify-content-center">';
             echo '<a href="show_upload_form.php" class="btn btn-primary mt-4 ms-40">Upload New Video Game</a>';
+            echo '</div>';
+            //echo out a logout button
+            echo '<div class="d-flex justify-content-center">';
+            echo '<form action="../controller/logout.php" method="post">';
+            echo '<button class="btn btn-primary mt-4 type="submit" name="logout">Logout</button>';
+            echo '</form>';
             echo '</div>';
           ?>
     </div>
   </div>
-
-
-
 </div>
     </body>
     </html>

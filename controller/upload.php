@@ -1,8 +1,12 @@
 <?php
+    //add access to functions
     include '../model/functions.php';
-    if ($_SERVER['REQUEST_METHOD'] == "POST") //check for post - validate form if POST
+
+    //check for request method post
+    if ($_SERVER['REQUEST_METHOD'] == "POST") 
     {                  
-        if(isset($_POST['action']) && $_POST['action'] === 'upload') //check for form submission
+        //check hidden input action set to upload
+        if(isset($_POST['action']) && $_POST['action'] === 'upload') 
         {
             //retrieve and filter upload form inputs
             $gameTitle = filter_input(INPUT_POST, 'gameTitle', FILTER_SANITIZE_STRING);
@@ -10,14 +14,16 @@
             $gamePlatform = filter_input(INPUT_POST, 'gamePlatform', FILTER_SANITIZE_STRING);
             $image = $_FILES['image'];
 
-            echo($gameTitle);
-            // Call the function to add the game - message based on success or failure of add
+            // Call the function to add the game - redirect based on success or failure of add
             if (addGameDB($gameTitle, $gameGenre, $gamePlatform, $image)) {
                 header("Location: ../view/show_video_games.php");
+                //halt further code execution
                 exit;
             } else {
-                echo '<h1>Something went wrong with addGameDB</h1>';
-                //header("Location: view/show_error.php");
+                //send back to show video games with a query string for error message
+                header("Location: ../view/show_video_games.php?error=invalid");
+                //halt further code execution
+                exit;
             }
         }
     }     

@@ -1,6 +1,5 @@
 <?php
-
-    //create some variables to hold
+    //create some variables to hold modifiable strings
     $dsn = "mysql:host=localhost;dbname=videogameapp";
     $username = "root";
     $password = "";
@@ -16,6 +15,7 @@
         exit();
     }
 
+//Function to compare username/password to csv
 function checkLogin($username, $password)
 {
     if (!$username || !$password)
@@ -60,6 +60,36 @@ function checkLogin($username, $password)
     }
     
     //Return false if went through array and did not find
+    return false;
+}
+
+//Function to compare username/password to csv
+function checkLoginDB($username, $password)
+{
+    if (!$username || !$password)
+    {
+        // anything passed was null, return false
+        return false;
+    }
+
+    //declare global to have acces to $db
+    global $db;
+    //string variable for the query
+    $qry = "Select * from users";
+    $pdoStatement = $db->query($qry);
+    //Use fetchall method of the pdostatement
+    $credentials = $pdoStatement->fetchAll();
+    
+    //look for username/password pair in array
+    foreach($credentials as $credential)
+    {       
+        if($credential[1] === $username && $credential[2] === $password)
+        {
+            return true;
+        } 
+    }
+    
+    //Return false if went through array and did not find a match
     return false;
 }
 
@@ -128,21 +158,26 @@ function addGameDB($title, $genre, $platform, $image)
     //Uploaded the File, move it
     //Set the directories for move
     $temp = $image['tmp_name'];
-    $path = '../uploads/' . basename($image['name']);
+    $fileName = basename($image['name']);
+    $destination = '../view/images/';
+    $path = $destination . $fileName;
     
     //move file, save outcome bool to variable
     $moved = move_uploaded_file($temp, $path);
 
+    //if true, will insert into db based on filtered values from upload form
     if($moved)
     {
+        //make available db variable
         global $db;
-        $query = "INSERT INTO `games` (`gameID`, `gameTitle`, `gameGenre`, `gamePlatform`, `gameImgLink`) VALUES (NULL, '$title', '$genre', '$platform', '$path'); ";
+        //variable for SQL query
+        $query = "INSERT INTO `games` (`gameID`, `gameTitle`, `gameGenre`, `gamePlatform`, `gameImgLink`) VALUES (NULL, '$title', '$genre', '$platform', '$fileName'); ";
+        //run the query on the db
         $db->query($query);
+        //return true to indicate success
         return true;
     } else {
+        //otherwise return false to indicate an issue with insert
         return false;
     }
-    
-
-
 }

@@ -31,7 +31,7 @@
     <?php
     //start session for access to session variables
     session_start();
-    //check query string for error message via get request (from login.php header url on checkLogin returning false)
+    //Ternary operator to check query string for error message via get request (from login.php header url on checkLogin returning false)
     $errorMessage = isset($_GET['error']) ? htmlspecialchars($_GET['error']) : '';
     ?>
 
