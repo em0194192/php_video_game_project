@@ -1,3 +1,6 @@
+<?php
+    include "../model/functions.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,24 +29,32 @@
 </head>
 <body>
     <?php
-        //start the session for access to session variables
-        session_start(); 
-                
-        //Ensure Functions are accessible
-        include "model/functions.php";
-
-        //Check if logged in, if not, redirect to login form
-        if(!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'])
-        {
-            header("Location: view/login_form.php");
-            exit;
-        } else {
-            header("Location: view/show_video_games.php");
-            exit;
-        }    
-
-        //if they are logged in - show navbar at top of page
-        include "view/navbar.php";
-    ?>        
+    session_start();
+    $errorMessage = isset($_GET['error']) ? htmlspecialchars($_GET['error']) : '';
+    ?>
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <form action="../controller/login.php" method="post" class="content border rounded shadow p-4">
+            <h1 style="text-align: center">Login</h1>
+            <div class="form-group mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" name="username" placeholder="Username" id="usernamefield">
+            </div>
+            <div class="form-group mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" name="password" placeholder="Password" id="passwordfield">
+            </div>
+            <input type="submit" class="btn btn-primary" value="Sign In">
+            <?php
+                if ($errorMessage)
+                {
+                    echo "<p style='color: red;'>Invalid Username and/or Password!</p>";
+                }
+            ?>
+        </form>
+    </div>           
 </body>
 </html>
+
+
+
+

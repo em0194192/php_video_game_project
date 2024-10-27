@@ -11,9 +11,6 @@
             height: 100vh; 
             margin: 0; 
             background: linear-gradient(to top right, lightblue, #d5a6e6); /* background gradient tl to tr blue to purple */
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
         }
         .content {
             background-color: white; 
@@ -32,42 +29,50 @@
     </style>
 </head>
 <body>
-<?php
-        //include "view/navbar.php";
-        include "../model/functions.php";
-    ?>
-<div class="container">
-<div class="content border rounded shadow p-4">
-  <div class="card-group">
-    <?php
-      $games = getGamesDB();
+  <?php
+    include "../model/functions.php";
+  ?>
+  <div class="container mt-4">
+    <div class="content border rounded shadow p-4">
+      <div class="card-group">
+        <?php
+          session_start();
+          if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
+              header("Location: view/login_form.php");
+              exit;
+          }
+          
+          $games = getGamesDB();
 
-      foreach($games as $game){
-        $title = htmlspecialchars($game['gameTitle']);
-        $genre = htmlspecialchars($game['gameGenre']);
-        $platform = htmlspecialchars($game['gamePlatform']);
-        $imagesource = htmlspecialchars($game['gameImgLink']);
+          foreach($games as $game)
+          {
+            $title = htmlspecialchars($game['gameTitle']);
+            $genre = htmlspecialchars($game['gameGenre']);
+            $platform = htmlspecialchars($game['gamePlatform']);
+            $imagesource = htmlspecialchars($game['gameImgLink']);
       
-        echo "
-        <div class='card'>
-          <img src='../view/images/$imagesource' class='card-img-top' alt='$title'>
-          <div class='card-body'>
-            <h5 class='card-title'>Title: $title</h5>
-            <p class='card-text'>Genre: $genre</p>
-            <p class='card-text'>Platform: $platform</p>
-          </div>
-        </div>
-        ";
-      
-      
-      }
-    ?>
+            echo "
+            <div class='card'>
+              <img src='../view/images/$imagesource' class='card-img-top' alt='$title'>
+              <div class='card-body'>
+                <h5 class='card-title'>Title: $title</h5>
+                <p class='card-text'>Genre: $genre</p>
+                <p class='card-text'>Platform: $platform</p>
+              </div>
+            </div>
+            ";
+          }
+        ?>
+      </div>
+          <?php
+            echo '<div class="d-flex justify-content-center">';
+            echo '<a href="show_upload_form.php" class="btn btn-primary mt-4 ms-40">Upload New Video Game</a>';
+            echo '</div>';
+          ?>
+    </div>
   </div>
-</div>
 
-<?php
-include "show_upload_form.php";
-?>
+
 
 </div>
     </body>

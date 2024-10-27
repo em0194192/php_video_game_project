@@ -25,7 +25,7 @@ function checkLogin($username, $password)
     }
 
     //load the data from users.csv
-    $filename = "model/users.csv"; //designate the location as a string
+    $filename = "../model/users.csv"; //designate the location as a string
     $file = fopen($filename, "rb"); //open the stream for reading
     if (!$file)
     {
@@ -120,7 +120,7 @@ function addGameDB($title, $genre, $platform, $image)
     }
 
     //check the file upload for errors, return false if any
-    if ($image['error'] === 0)
+    if ($image['error'] !== 0)
     {
         return false;
     }
@@ -128,7 +128,7 @@ function addGameDB($title, $genre, $platform, $image)
     //Uploaded the File, move it
     //Set the directories for move
     $temp = $image['tmp_name'];
-    $path = '../uploads' . $image['image']['name'];
+    $path = '../uploads/' . basename($image['name']);
     
     //move file, save outcome bool to variable
     $moved = move_uploaded_file($temp, $path);
@@ -136,7 +136,7 @@ function addGameDB($title, $genre, $platform, $image)
     if($moved)
     {
         global $db;
-        $query = "INSERT INTO `games` (`gameID`, `gameTitle`, `gameGenre`, `gamePlatform`, `gameImgLink`) VALUES (NULL, '$title', '$genre', '$platform', '$image'); ";
+        $query = "INSERT INTO `games` (`gameID`, `gameTitle`, `gameGenre`, `gamePlatform`, `gameImgLink`) VALUES (NULL, '$title', '$genre', '$platform', '$path'); ";
         $db->query($query);
         return true;
     } else {
