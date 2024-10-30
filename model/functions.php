@@ -186,7 +186,7 @@ function getGameDB($id)
 {
     //make available db variable
     global $db;
-    //make available db variable
+    //save the query in a variable
     $query = "SELECT * FROM games WHERE games.gameID = $id; ";
     //run the query on the db
     $obj = $db->query($query);
@@ -194,10 +194,55 @@ function getGameDB($id)
     return $obj->fetch();
 }
 
-function updateGameDB($gameID, $gameTitle, $gameGenre, $gamePlatform)
+function updateGameDB($gameID, $gameTitle, $gameGenre, $gamePlatform, $image)
 {
-    global $db;
-    $query = "UPDATE `games` SET `gameTitle` = '$gameTitle', `gameGenre` = '$gameGenre', `gamePlatform` = '$gamePlatform' WHERE `games`.`gameID` = $gameID; ";
-    $db->query($query);
-    return true;
+    //check for empty values, return false if any (except image)
+    if (!$gameID || !$gameTitle || !$gameGenre || !$gamePlatform)
+    {
+        return false;
+    }
+
+    //if image is empty proceed with updating all other fields
+    if (!$image)
+    {
+        //make available db variable
+        global $db;
+        //save the query in a variable
+        $query = "UPDATE `games` SET `gameTitle` = '$gameTitle', `gameGenre` = '$gameGenre', `gamePlatform` = '$gamePlatform' WHERE `games`.`gameID` = $gameID; ";
+        //run the query on the db
+        $db->query($query);
+        return true;
+    } else {
+            
+        //Otherwise - upload image, then update all fields
+
+        //check the file upload for errors, return false if any
+        if ($image['error'] !== 0)
+        {
+            return false;
+        }
+
+        //Uploaded the file, move it
+        //Set the directories for move
+        $temp = $image['tmp_name'];
+        $fileName = basename($image['name']);
+        $destination = '../view/images/';
+        $path = $destination . $fileName;
+        
+        //move file, save outcome bool to variable
+        $moved = move_uploaded_file($temp, $path);
+
+        //make available db variable
+        global $db;
+        //save the query in a variable
+        $query = "UPDATE `games` SET `gameTitle` = '$gameTitle', `gameGenre` = '$gameGenre', `gamePlatform` = '$gamePlatform', gameImgLink = '$fileName' WHERE `games`.`gameID` = $gameID; ";
+        //run the query on the db
+        $db->query($query);
+        return true;
+    }
+    
+
+
+
+
 }

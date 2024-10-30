@@ -44,20 +44,22 @@
             $button ="Update";
             $formAction = "../controller/update.php";
             $hiddenAction = "update";
+            $formLabel = "Update Game Details";
         } else {
             $gameID = "";
             $gameTitle = "";
             $gameGenre = "";
             $gamePlatform = "";
-            $file = "hidden";
+            $file = "file";
             $button ="Upload";
             $formAction = "../controller/upload.php";
             $hiddenAction = "upload";
+            $formLabel = "Add A Game";
         }
     ?>
     
     <form action="<?=$formAction?>" method="post" class="content border rounded shadow p-4" enctype="multipart/form-data">
-        <h1 style="text-align: center">Add A Game</h1>
+        <h1 style="text-align: center"><?=$formLabel?></h1>
         <div class="form-group mb-3">
             <label for="gameTitle" class="form-label">Title:</label>    
             <input type="text" class="form-control" name="gameTitle" value="<?=$gameTitle?>" id="gameTitle"></br>
@@ -66,7 +68,7 @@
             <label for="gamePlatform" class="form-label">Platform:</label>
             <input type="text" class="form-control" name="gamePlatform" value="<?=$gamePlatform?>" id="gamePlatform"></br>
             <label for="image" class="form-label">Game Image:</label>
-            <input value="<?=$gamePlatform?>" class="form-control" name="image" accept="image/*" id="image">
+            <input type="<?=$file?>" class="form-control" name="image" accept="image/*" id="image">
             <input type="hidden" name="action" value="<?=$hiddenAction?>">
             <input type="hidden" name="gameID" value="<?=$gameID?>">
         </div>

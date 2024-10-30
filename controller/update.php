@@ -13,15 +13,21 @@
             $gameGenre = filter_input(INPUT_POST, 'gameGenre', FILTER_SANITIZE_STRING);
             $gamePlatform = filter_input(INPUT_POST, 'gamePlatform', FILTER_SANITIZE_STRING);
             $gameID = filter_input(INPUT_POST, 'gameID', FILTER_SANITIZE_STRING);
-            //$image = $_FILES['image'];
-
+            if(!isset($_FILES['image']) || $_FILES['image']['error'] === UPLOAD_ERR_NO_FILE)
+            {
+                $game = getGameDB($gameID);
+                $image = htmlspecialchars($game['gameImgLink']); 
+            } else {
+                $image = $_FILES['image'];
+            }
             // Call the function to add the game - redirect based on success or failure of add
-            if (updateGameDB($gameID, $gameTitle, $gameGenre, $gamePlatform)) {
+            if (updateGameDB($gameID, $gameTitle, $gameGenre, $gamePlatform, $image)) {
+                //send back to show video games
                 header("Location: ../view/show_video_games.php");
                 //halt further code execution
                 exit;
             } else {
-                //send back to show video games with a query string for error message
+                //send back to show video games - but with a query string for error message
                 header("Location: ../view/show_video_games.php?error=invalid_update");
                 //halt further code execution
                 exit;
