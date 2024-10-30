@@ -170,7 +170,7 @@ function addGameDB($title, $genre, $platform, $image)
     {
         //make available db variable
         global $db;
-        //variable for SQL query
+        //make available db variable
         $query = "INSERT INTO `games` (`gameID`, `gameTitle`, `gameGenre`, `gamePlatform`, `gameImgLink`) VALUES (NULL, '$title', '$genre', '$platform', '$fileName'); ";
         //run the query on the db
         $db->query($query);
@@ -180,4 +180,24 @@ function addGameDB($title, $genre, $platform, $image)
         //otherwise return false to indicate an issue with insert
         return false;
     }
+}
+
+function getGameDB($id)
+{
+    //make available db variable
+    global $db;
+    //make available db variable
+    $query = "SELECT * FROM games WHERE games.gameID = $id; ";
+    //run the query on the db
+    $obj = $db->query($query);
+    //return the result
+    return $obj->fetch();
+}
+
+function updateGameDB($gameID, $gameTitle, $gameGenre, $gamePlatform)
+{
+    global $db;
+    $query = "UPDATE `games` SET `gameTitle` = '$gameTitle', `gameGenre` = '$gameGenre', `gamePlatform` = '$gamePlatform' WHERE `games`.`gameID` = $gameID; ";
+    $db->query($query);
+    return true;
 }

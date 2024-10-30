@@ -42,8 +42,6 @@
             exit;
         }    
 
-        //if they are logged in - show navbar at top of page
-        include "view/navbar.php";
     ?>        
 </body>
 </html>

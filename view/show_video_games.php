@@ -57,6 +57,7 @@
             $genre = htmlspecialchars($game['gameGenre']);
             $platform = htmlspecialchars($game['gamePlatform']);
             $imagesource = htmlspecialchars($game['gameImgLink']);
+            $gameID = htmlspecialchars($game['gameID']);
             
             //load games to page with echo (bootstrap cards) 
             echo "
@@ -66,6 +67,7 @@
                 <h5 class='card-title'>Title: $title</h5>
                 <p class='card-text'>Genre: $genre</p>
                 <p class='card-text'>Platform: $platform</p>
+                <a href='show_upload_form.php?action=update_game&id=$gameID'>Update Game</a>
               </div>
             </div>
             ";

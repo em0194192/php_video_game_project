@@ -31,22 +31,46 @@
                 
         //Ensure Functions are accessible
         include "../model/functions.php";
+
+        $id = filter_input(INPUT_GET, 'id') ;
+        if($id)
+        {
+            $game = getGameDB($id);
+            $gameID = htmlspecialchars($game['gameID']);
+            $gameTitle = htmlspecialchars($game['gameTitle']);
+            $gameGenre = htmlspecialchars($game['gameGenre']);
+            $gamePlatform = htmlspecialchars($game['gamePlatform']);
+            $file = "file";
+            $button ="Update";
+            $formAction = "../controller/update.php";
+            $hiddenAction = "update";
+        } else {
+            $gameID = "";
+            $gameTitle = "";
+            $gameGenre = "";
+            $gamePlatform = "";
+            $file = "hidden";
+            $button ="Upload";
+            $formAction = "../controller/upload.php";
+            $hiddenAction = "upload";
+        }
     ?>
     
-    <form action="../controller/upload.php" method="post" class="content border rounded shadow p-4" enctype="multipart/form-data">
+    <form action="<?=$formAction?>" method="post" class="content border rounded shadow p-4" enctype="multipart/form-data">
         <h1 style="text-align: center">Add A Game</h1>
         <div class="form-group mb-3">
             <label for="gameTitle" class="form-label">Title:</label>    
-            <input type="text" class="form-control" name="gameTitle" id="gameTitle"></br>
+            <input type="text" class="form-control" name="gameTitle" value="<?=$gameTitle?>" id="gameTitle"></br>
             <label for="gameGenre" class="form-label">Genre:</label>
-            <input type="text" class="form-control" name="gameGenre" id="gameGenre"></br>
+            <input type="text" class="form-control" name="gameGenre" value="<?=$gameGenre?>" id="gameGenre"></br>
             <label for="gamePlatform" class="form-label">Platform:</label>
-            <input type="text" class="form-control" name="gamePlatform" id="gamePlatform"></br>
+            <input type="text" class="form-control" name="gamePlatform" value="<?=$gamePlatform?>" id="gamePlatform"></br>
             <label for="image" class="form-label">Game Image:</label>
-            <input type="file" class="form-control" name="image" accept="image/*" id="image">
-            <input type="hidden" name="action" value="upload">
+            <input value="<?=$gamePlatform?>" class="form-control" name="image" accept="image/*" id="image">
+            <input type="hidden" name="action" value="<?=$hiddenAction?>">
+            <input type="hidden" name="gameID" value="<?=$gameID?>">
         </div>
-            <input type="submit" class="btn btn-primary" value="Upload">
+            <input type="submit" class="btn btn-primary" value="<?=$button?>">
     </form>
     
 </body>
